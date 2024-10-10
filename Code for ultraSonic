@@ -1,0 +1,9 @@
+import RPI.GPIO as GPIO
+
+//input wire 1 
+//input wire 2
+
+def setup(): 
+GPIO.setmode(GPIO.//////)
+GPIO.setup(wire 1, GPIO.OUT)
+GPIO.setup(wire 2,
