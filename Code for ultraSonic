@@ -88,6 +88,12 @@ def loop():
             buzzer_off()
 
         time.sleep(0.3)
+
+try:
+    while True:
+        motion = GPIO.input(InfaredPin)
+        print(motion)
+        time.sleep(.1)
 '''
 
 def destroy():
