@@ -5,9 +5,9 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.cleanup()
 import time
 
-TRIG = 
-ECHO = 
-BuzzerPin = 
+TRIG = 11
+ECHO = 12
+BuzzerPin = 13
 InfaredPin =
 VibratorPin =
 
