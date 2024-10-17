@@ -21,6 +21,10 @@ def setup():
     GPIO.setup(BuzzerPin, GPIO.OUT)
     GPIO.output(BuzzerPin, GPIO.HIGH)
 
+    # Setup for Vibrator
+    GPIO.setup(VibratorPin, GPIO.OUT)
+    GPIO.output(VibratorPin, GPIO.HIGH)
+
     #Setup for Infared
     GPIO.setup(motionPin, GPIO.IN)
 
@@ -51,6 +55,18 @@ def beep(duration):
     buzzer_on()
     time.sleep(duration)
     buzzer_off()
+    time.sleep(duration)
+
+def vibrator_on():
+    GPIO.output(VibratorPin, GPIO.LOW)
+
+def vibrator_off():
+    GPIO.output(VibratorPin, GPIO.HIGH)
+
+def vibrator(duration):
+    vibrator_on()
+    time.sleep(duration)
+    vibrator_off()
     time.sleep(duration)
 
 '''
