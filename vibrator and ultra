@@ -9,7 +9,7 @@ TRIG = 11
 ECHO = 12
 BuzzerPin = 13
 ##InfaredPin =
-VibratorPin = 14
+VibratorPin = 31
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -21,7 +21,7 @@ def setup():
     GPIO.setup(BuzzerPin, GPIO.OUT)
     GPIO.output(BuzzerPin, GPIO.HIGH)
 
-    Setup for Vibrator
+    #Setup for Vibrator
     GPIO.setup(VibratorPin, GPIO.OUT)
     GPIO.output(VibratorPin, GPIO.HIGH)
 
@@ -77,18 +77,21 @@ def loop():
         time.sleep(0.3)
 
 # if the object is within 5 cm, buzz constantly
-        if dis < 5: 
+        if dis < 200: 
             vibrator_on()
 # if the object is within 30 cm
-        elif dis < 30:  
+        elif dis < 100:  
 # decrease beep interval as object gets closer
-            vibrator_interval = (dis - 5) / 50.0 
+            vibrator_interval = 5
  # just an example scaling
             vibrator(vibrator_interval)
+        elif dis < 50:
+			vibrator_interval = 10
+			vibrator(vibrator_interval)
         else:
             vibrator_off()
 
-        time.sleep(0.3)
+        time.sleep(0.1)
 '''
 try:
     while True:
