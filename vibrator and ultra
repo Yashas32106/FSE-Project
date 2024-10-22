@@ -77,17 +77,18 @@ def loop():
         time.sleep(0.3)
 
 # if the object is within 5 cm, buzz constantly
-        if dis < 200: 
-            vibrator_on()
+        if dis < 50: 
+            vibrator_interval = 1
+            vibrator(vibrator_interval)			
 # if the object is within 30 cm
         elif dis < 100:  
 # decrease beep interval as object gets closer
-            vibrator_interval = 5
+            vibrator_interval = 3
  # just an example scaling
             vibrator(vibrator_interval)
-        elif dis < 50:
-			vibrator_interval = 10
-			vibrator(vibrator_interval)
+        elif dis < 200:
+            vibrator_interval = 5
+            vibrator(vibrator_interval)
         else:
             vibrator_off()
 
