@@ -26,7 +26,7 @@ def setup():
     GPIO.output(VibratorPin, GPIO.HIGH)
 
     #Setup for Infared
-    GPIO.setup(motionPin, GPIO.IN)
+    GPIO.setup(InfaredPin, GPIO.IN)
 
 def distance():
     GPIO.output(TRIG, 0)
