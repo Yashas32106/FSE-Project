@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
-GPIO.cleanup()
+##GPIO.cleanup()
 import time
 
 TRIG = 11
@@ -105,25 +105,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         destroy()
 
-def loop():
-    while True:
-        dis = distance()
-        print(dis, 'cm')
-        # if the object is within 5 cm, buzz constantly
-        if dis < 5: 
-            buzzer_on()
-        # if the object is within 30 cm
-        elif dis < 30:  
-            # decrease beep interval as object gets closer
-            beep_interval = (dis - 5) / 50.0 
-            beep(beep_interval)
-        else:
-            buzzer_off()
-        time.sleep(0.3)
-# Uncommment the loop function to make it available
-if __name__ == "__main__":
-    setup()
-    try:
-        loop()
-    except KeyboardInterrupt:
-        destroy()
