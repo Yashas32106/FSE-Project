@@ -8,7 +8,6 @@ TRIG = 11
 ECHO = 12
 BuzzerPin = 13
 InfaredPin = 18
-VibratorPin = 31
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -59,21 +58,22 @@ def loop():
     while True:
         # Ultrasonic sensor for detecting objects based on distance
         dis = distance()
-        print(f"Distance: {dis:.2f} cm")
         
-        if dis < 50:  # If an object is within 50 cm, activate buzzer
-            print("Object very close! Activating buzzer.")
-            buzzer_on()
+        if dis < 50:  # Fast buzzing if object is within 50 cm
+            beep(0.1)  # Short intervals between beeps
+        elif dis < 100:  # Regular buzzing if object is within 100 cm
+            beep(0.3)  # Moderate intervals between beeps
+        elif dis < 200:  # Slow buzzing if object is within 200 cm
+            beep(0.5)  # Longer intervals between beeps
         else:
             buzzer_off()
 
         # Infrared sensor for detecting people (motion)
         motion = GPIO.input(InfaredPin)
         if motion == 1:
-            print("Person detected! Sending beep signal.")
             beep(0.1)  # Beep for a short duration when a person is detected
         else:
-            print("No person detected.")
+            buzzer_off()
         
         time.sleep(0.5)
 
@@ -86,4 +86,3 @@ if __name__ == "__main__":
         loop()
     except KeyboardInterrupt:
         destroy()
-
