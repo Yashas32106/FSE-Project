@@ -1,1 +1,89 @@
+#!/usr/bin/env python3
+
+import RPi.GPIO as GPIO
+import time
+
+# Define GPIO pins
+TRIG = 11
+ECHO = 12
+BuzzerPin = 13
+InfaredPin = 18
+VibratorPin = 31
+
+def setup():
+    GPIO.setmode(GPIO.BOARD)
+    
+    # Setup for ultrasonic sensor
+    GPIO.setup(TRIG, GPIO.OUT)
+    GPIO.setup(ECHO, GPIO.IN)
+    
+    # Setup for buzzer
+    GPIO.setup(BuzzerPin, GPIO.OUT)
+    GPIO.output(BuzzerPin, GPIO.HIGH)
+
+    # Setup for infrared motion sensor
+    GPIO.setup(InfaredPin, GPIO.IN)
+
+def distance():
+    GPIO.output(TRIG, 0)
+    time.sleep(0.000002)
+    GPIO.output(TRIG, 1)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, 0)
+
+    while GPIO.input(ECHO) == 0:
+        pass
+    time1 = time.time()
+    
+    while GPIO.input(ECHO) == 1:
+        pass
+    time2 = time.time()
+
+    # Calculate distance in cm
+    during = time2 - time1
+    return during * 340 / 2 * 100
+
+def buzzer_on():
+    GPIO.output(BuzzerPin, GPIO.LOW)
+
+def buzzer_off():
+    GPIO.output(BuzzerPin, GPIO.HIGH)
+
+def beep(duration):
+    buzzer_on()
+    time.sleep(duration)
+    buzzer_off()
+    time.sleep(duration)
+
+def loop():
+    while True:
+        # Ultrasonic sensor for detecting objects based on distance
+        dis = distance()
+        print(f"Distance: {dis:.2f} cm")
+        
+        if dis < 50:  # If an object is within 50 cm, activate buzzer
+            print("Object very close! Activating buzzer.")
+            buzzer_on()
+        else:
+            buzzer_off()
+
+        # Infrared sensor for detecting people (motion)
+        motion = GPIO.input(InfaredPin)
+        if motion == 1:
+            print("Person detected! Sending beep signal.")
+            beep(0.1)  # Beep for a short duration when a person is detected
+        else:
+            print("No person detected.")
+        
+        time.sleep(0.5)
+
+def destroy():
+    GPIO.cleanup()
+    
+if __name__ == "__main__":
+    setup()
+    try:
+        loop()
+    except KeyboardInterrupt:
+        destroy()
 
