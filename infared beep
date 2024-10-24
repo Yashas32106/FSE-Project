@@ -57,17 +57,19 @@ def beep(duration):
     buzzer_off()
     time.sleep(duration)
 
+
 def vibrator_on():
-    GPIO.output(VibratorPin, GPIO.LOW)
+    GPIO.output(VibratorPin, GPIO.HIGH)
 
 def vibrator_off():
-    GPIO.output(VibratorPin, GPIO.HIGH)
+    GPIO.output(VibratorPin, GPIO.LOW)
 
 def vibrator(duration):
     vibrator_on()
     time.sleep(duration)
     vibrator_off()
     time.sleep(duration)
+
 
 '''
 def loop():
@@ -90,15 +92,24 @@ def loop():
             vibrator_interval = 5
             vibrator(vibrator_interval)
         else:
-            vibrator_off()
+            vibrator_off()	
 
         time.sleep(0.1)
 '''
+
 def loop():
+    vibrator_off()
     while True:
         motion = GPIO.input(InfaredPin)
         print(motion)
         time.sleep(.1)
+        
+        if motion == 1: 
+            buzzer_on()
+        else:
+            buzzer_off()
+
+        time.sleep(0.3)
 
 
 def destroy():
@@ -106,6 +117,7 @@ def destroy():
     
 if __name__ == "__main__":
     setup()
+    vibrator_off()
     try:
         loop()
     except KeyboardInterrupt:
