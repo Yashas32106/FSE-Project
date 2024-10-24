@@ -22,8 +22,8 @@ def setup():
     GPIO.output(BuzzerPin, GPIO.HIGH)
 
     # Setup for Vibrator
-    GPIO.setup(VibratorPin, GPIO.OUT)
-    GPIO.output(VibratorPin, GPIO.HIGH)
+    GPIO.setup(VibratorPin, GPIO.HIGH)
+    GPIO.output(VibratorPin, GPIO.LOW)
 
     #Setup for Infared
     GPIO.setup(InfaredPin, GPIO.IN)
