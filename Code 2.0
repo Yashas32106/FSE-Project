@@ -1,79 +1,10 @@
-#!/usr/bin/env python3
-
-import RPi.GPIO as GPIO
-import time
-
-TRIG = 11
-ECHO = 12
-BuzzerPin = 13
-InfaredPin = 18
-VibratorPin = 31
-
-def setup():
-    GPIO.setmode(GPIO.BOARD)
-    # Setup for ultrasonic sensor
-    GPIO.setup(TRIG, GPIO.OUT)
-    GPIO.setup(ECHO, GPIO.IN)
-    
-    # Setup for buzzer
-    GPIO.setup(BuzzerPin, GPIO.OUT)
-    GPIO.output(BuzzerPin, GPIO.HIGH)
-
-    # Setup for Vibrator
-    GPIO.setup(VibratorPin, GPIO.OUT)
-    GPIO.output(VibratorPin, GPIO.HIGH)
-
-    # Setup for Infrared
-    GPIO.setup(InfaredPin, GPIO.IN)
-
-def distance():
-    GPIO.output(TRIG, 0)
-    time.sleep(0.000002)
-    GPIO.output(TRIG, 1)
-    time.sleep(0.00001)
-    GPIO.output(TRIG, 0)
-
-    while GPIO.input(ECHO) == 0:
-        pass
-    time1 = time.time()
-    while GPIO.input(ECHO) == 1:
-        pass
-    time2 = time.time()
-
-    during = time2 - time1
-    return during * 340 / 2 * 100
-
-def buzzer_on():
-    GPIO.output(BuzzerPin, GPIO.LOW)
-
-def buzzer_off():
-    GPIO.output(BuzzerPin, GPIO.HIGH)
-
-def beep(duration):
-    buzzer_on()
-    time.sleep(duration)
-    buzzer_off()
-    time.sleep(duration)
-
-def vibrator_on():
-    GPIO.output(VibratorPin, GPIO.HIGH)
-
-def vibrator_off():
-    GPIO.output(VibratorPin, GPIO.LOW)
-
-def vibrator(duration):
-    vibrator_on()
-    time.sleep(duration)
-    vibrator_off()
-    time.sleep(duration)
-
 def loop():
     while True:
         dis = distance()
         print(f"Distance: {dis} cm")
         time.sleep(0.1)
 
-        # Infrared Sensor Detection
+        # Infrared Sensor Detection for Beeper
         motion = GPIO.input(InfaredPin)
         
         if motion == 1:
@@ -85,7 +16,7 @@ def loop():
             while GPIO.input(InfaredPin) == 1:
                 time.sleep(0.1)  # Short delay to avoid rapid re-triggering
 
-        # Vibrator control based on distance
+        # Vibrator control based on distance - separate from beeper logic
         if dis < 50: 
             vibrator_interval = 0.1
             vibrator(vibrator_interval)
@@ -99,17 +30,3 @@ def loop():
             vibrator_off()
 
         time.sleep(0.1)
-
-def destroy():
-    GPIO.cleanup()
-    print("GPIO cleanup completed")
-
-if __name__ == "__main__":
-    setup()
-    vibrator_off()
-    try:
-        loop()
-    except KeyboardInterrupt:
-        print("Program interrupted by user")
-    finally:
-        destroy()  # Cleanup GPIO settings
