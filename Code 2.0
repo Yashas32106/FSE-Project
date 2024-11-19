@@ -79,12 +79,8 @@ def loop():
         
         if motion == 1:
             print("Motion detected")
-            beep(1)  # 1-second beep
-            # Rest for 0.5 seconds after beep
-            time.sleep(0.5)
-            # Wait until motion signal goes low again before detecting more
-            while GPIO.input(InfaredPin) == 1:
-                time.sleep(0.1)  # Short delay to avoid rapid re-triggering
+            beep(0.5) 
+
 
         # Vibrator control based on distance - separate from beeper logic
         if dis < 100: 
@@ -99,7 +95,7 @@ def loop():
         else:
             vibrator_off()
 
-        time.sleep(0.1)
+        time.sleep(0.01)
 
 def destroy():
     GPIO.cleanup()
