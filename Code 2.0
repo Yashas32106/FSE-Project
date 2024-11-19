@@ -87,14 +87,14 @@ def loop():
                 time.sleep(0.1)  # Short delay to avoid rapid re-triggering
 
         # Vibrator control based on distance - separate from beeper logic
-        if dis < 50: 
-            vibrator_interval = 0.1
+        if dis < 100: 
+            vibrator_interval = 0.01
             vibrator(vibrator_interval)
-        elif dis < 100:
-            vibrator_interval = 1.5
+        elif dis < 300:
+            vibrator_interval = 0.5
             vibrator(vibrator_interval)
-        elif dis < 200:
-            vibrator_interval = 3
+        elif dis < 500:
+            vibrator_interval = 1
             vibrator(vibrator_interval)
         else:
             vibrator_off()
