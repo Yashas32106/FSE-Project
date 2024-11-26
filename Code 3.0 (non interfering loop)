@@ -84,7 +84,7 @@ def loop():
 
             # Vibrator control based on distance
             if dis < 100:
-                vibrator(0.01)
+                vibrator(0.1)
             elif dis < 300:
                 vibrator(0.5)
             elif dis < 500:
