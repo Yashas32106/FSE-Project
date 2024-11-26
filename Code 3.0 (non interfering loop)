@@ -10,23 +10,26 @@ BuzzerPin = 13
 InfaredPin = 18
 VibratorPin = 31
 
+# Setting up the Raspberry Pi
 def setup():
     GPIO.setmode(GPIO.BOARD)
     # Setup for ultrasonic sensor
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
     
-    # Setup for buzzer
+# Setup for buzzer
     GPIO.setup(BuzzerPin, GPIO.OUT)
     GPIO.output(BuzzerPin, GPIO.HIGH)
 
-    # Setup for Vibrator
+# Setup for Vibrator
     GPIO.setup(VibratorPin, GPIO.OUT)
     GPIO.output(VibratorPin, GPIO.HIGH)
 
-    # Setup for Infrared
+# Setup for Infrared
     GPIO.setup(InfaredPin, GPIO.IN)
 
+
+# Function defenition to get the distance from Ultrasonic
 def distance():
     GPIO.output(TRIG, 0)
     time.sleep(0.000002)
@@ -46,17 +49,20 @@ def distance():
     elapsed_time = stop_time - start_time
     return (elapsed_time * 34000) / 2  # Convert to cm
 
+# Defenitions for turning the Buzzer on and off
 def buzzer_on():
     GPIO.output(BuzzerPin, GPIO.LOW)
 
 def buzzer_off():
     GPIO.output(BuzzerPin, GPIO.HIGH)
 
+# Defenition for Beeper
 def beep(duration):
     buzzer_on()
     time.sleep(duration)
     buzzer_off()
 
+# Defenitions for Vibrator
 def vibrator_on():
     GPIO.output(VibratorPin, GPIO.HIGH)
 
@@ -68,11 +74,13 @@ def vibrator(duration):
     time.sleep(duration)
     vibrator_off()
 
+# The following loop will run when the code is executed
 def loop():
     last_distance_time = time.time()
     last_motion_time = time.time()
     motion_detected = False
 
+# Code will keep executing unit interrupted on console
     while True:
         current_time = time.time()
 
@@ -103,6 +111,7 @@ def loop():
 
         time.sleep(0.01)  # Avoid CPU overutilization
 
+# Stops code when interrupted
 def destroy():
     GPIO.cleanup()
     print("GPIO cleanup completed")
